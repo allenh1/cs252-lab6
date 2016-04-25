@@ -9,12 +9,25 @@ Team:
 
 Description:
 ------------
-We are implementing a note taking application that allows several clients to edit notes
-simultaneously. It is very similar to google docs, but is less bloated and has some extra
-features, including the ability to record audio and Question Bubbles (the rough equivalent
-of a margine note).
+We are implementing a Bench Cookie programming language tutor.
+
+About:
+------
+ * Server (bcc-eval) is run on allen-software.com:8888
+ * The user input is sent over TCP (as raw text) to the
+   server, which is listening.
+
+ToDo:
+-----
+ * Make TCP send from browser (maybe using node would be best).
+ * Compile saved code
+ * Grab saved code from server
+
 
 Technologies Implemented:
 -------------------------
- * TBD
+ * Node.js?
+ * Javascript
+ * Berkeley Sockets (in C)
+
 

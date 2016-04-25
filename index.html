@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#375EAB">
+
+    <title>BCC Programming Language</title>
+
+    <link type="text/css" rel="stylesheet" href="style.css">
+
+    <link rel="search" type="application/opensearchdescription+xml" title="godoc" href="/opensearch.xml" />
+
+    <link rel="stylesheet" href="https://golang.org/lib/godoc/jquery.treeview.css">
+    <script type="text/javascript" src="bcc-run.js"/>
+    <script type="text/javascript">window.initFuncs = [];</script>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(["_setAccount", "UA-11222381-2"]);
+      _gaq.push(["b._setAccount", "UA-49880327-6"]);
+      window.trackPageview = function() {
+      _gaq.push(["_trackPageview", location.pathname+location.hash]);
+      _gaq.push(["b._trackPageview", location.pathname+location.hash]);
+      };
+      window.trackPageview();
+      window.trackEvent = function(category, action, opt_label, opt_value, opt_noninteraction) {
+      _gaq.push(["_trackEvent", category, action, opt_label, opt_value, opt_noninteraction]);
+      _gaq.push(["b._trackEvent", category, action, opt_label, opt_value, opt_noninteraction]);
+      };
+    </script>
+  </head>
+
+  <body>
+    <div id='lowframe' style="position: fixed; bottom: 0; left: 0; height: 0; width: 100%; border-top: thin solid grey; background-color: white; overflow: auto;">
+      ...
+    </div><!-- #lowframe -->
+
+    <!-- ================================ Top Bar ======================================== -->
+    <div id="topbar"><div class="container">
+	<div class="top-heading" id="heading-wide"><a href="/">Bench Cookie</a></div>
+	<div class="top-heading" id="heading-narrow"><a href="/">BCC</a></div>
+	<a href="#" id="menu-button"><span id="menu-button-arrow">&#9661;</span></a>
+	<form method="GET" action="/search">
+	  <div id="menu">
+	    <a href="/bcc-doc">Documents</a>
+	    <a href="/bcc-release">Packages</a>
+	    <a id="playgroundButton" href="/allenh1/playground.js" title="Show BCC Playground">Play</a>
+	    <input type="text" id="search" name="q" class="inactive" value="Search" placeholder="Search">
+	  </div>
+	</form>
+      </div>
+    </div>
+    
+    <div style="clear: both;"></div>
+
+    <!-- ================================ BCC Editor ====================================== -->
+
+    <div class="container">
+      <div class="textareacontainer">
+	<div class="textarea">
+	  <div class="textareawrapper">
+	    <div class="wrapper">
+	    <textarea autocomplete="off" class="code_input" id="textareaCode"
+		      wrap="logical" spellcheck="false" >
+print "Hello, World!\n" ?
+done!
+	    </textarea>
+	    <div class="controls">
+	      <button type="button" onclick="submitCompile()">Run</button>
+	    </div>
+	    </div>
+	</div>
+      </div>
+    </div>
+    <!-- ================================= Footer ========================================= -->
+    <div id="footer">
+      Current BCC Version: <a href="/bcc-release/bcc-0.0.2.tar.gz">BCC-0.0.2.</a><br>
+    </div>    
+  </body>
+</html>
