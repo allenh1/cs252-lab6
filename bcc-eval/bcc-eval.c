@@ -82,16 +82,8 @@ int main(int argc, char ** argv)
       _exit(4);
     }
 
-    // Process the request
-    pid = fork();
-    if (pid == -1) {
-      perror("fork");
-      _exit(5);
-    } else if (pid == 0) {
-      // Child process
-      process_request(slave);
-      return 0;
-    } else close(slave);
+    process_request(slave);
+    close(slave);
   } return 0;
 }
 
@@ -115,24 +107,15 @@ void process_request(int fd)
 
   int state = 0;
 
-  /**
-   * @todo fork bcc & evaluate.
-   */
-
   int pid = -1;
-  char * _args[3] = {
-    strdup("bcc"),
-    strdup("temp.bc"),
-    NULL
-  };
- 
+  
   for (int n = 0; request_len < max_request && (n = read(fd, &next_char,
 							 sizeof(next_char)) > 0);) {
     if (strstr(_get_request, "done!")) {
       _get_request[request_len++] = '\n';
       break;
     }
-    if (next_char == '\r') request_len--; // Hacky, yes.
+    if (next_char == '\r') continue; // Hacky, yes.
     else {
       if (request_len) last_char = _get_request[request_len-1];
       _get_request[request_len++] = next_char;
@@ -144,16 +127,24 @@ void process_request(int fd)
     perror("fopen");
   }
   fprintf(_fd, "%s", _get_request);
-  fflush(_fd); fclose(_fd);
+  fclose(_fd); free(_get_request);
+
+  /** Compile the now saved source! **/
+  int tmpin  = dup(0);
+
+  int fdin = open("out.bc", O_WRONLY, 0655);
+  if (fdin < 0) {
+    perror("input file");
+    _exit(6);
+  }
+
+  // dup server code to stdin
+  dup2(fdin, 0);
+  close(fdin);
+
+  execlp("bcc", "bcc", "out.s", (char*) NULL);
+  
+  /** Restore I/O Default **/
+  dup2(tmpin, 0);
+  close(tmpin);
 }
-
-
-
-
-
-
-
-
-
-
-
