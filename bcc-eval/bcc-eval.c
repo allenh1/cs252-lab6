@@ -132,13 +132,13 @@ void process_request(int fd)
       _get_request[request_len++] = '\n';
       break;
     }
-    if (next_char == '\r') continue; // Hacky, yes.
-    if (request_len) last_char = _get_request[request_len-1];
-    _get_request[request_len++] = next_char;
+    if (next_char == '\r') request_len--; // Hacky, yes.
+    else {
+      if (request_len) last_char = _get_request[request_len-1];
+      _get_request[request_len++] = next_char;
+    }
   } D fprintf(stderr, "I read: \"%s\"\n", _get_request); 
-    
-  _exit(2);
-    
+     
   FILE * _fd;
   if (!(_fd = fopen("out.bc", "w"))) {
     perror("fopen");
