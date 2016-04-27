@@ -12,8 +12,7 @@
     <link rel="search" type="application/opensearchdescription+xml" title="godoc" href="/opensearch.xml" />
 
     <link rel="stylesheet" href="https://golang.org/lib/godoc/jquery.treeview.css">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script> 
+    <script type="text/javascript" src="bcc-run.js"/>
     <script type="text/javascript">window.initFuncs = [];</script>
     <script type="text/javascript">
       var _gaq = _gaq || [];
@@ -88,10 +87,12 @@ done!
 		 <div class="wrapper">
 		   <textarea autocomplete="off" class="code_input" id="textareaCode"
 			     wrap="logical" spellcheck="false" >
-print "Hello!!!!\n" ?
+print "Hello, World!\n" ?
 done!
 		   </textarea>
-		  <button>Run</button>
+		   <form>
+		     <input id="Run" type="button" value="send data">
+		     </form>
 		 </div>
 	       </div>
 	     </div>
@@ -103,45 +104,57 @@ done!
       
 		 
        <p style="color:black;">
-	 <textarea autocomplete="off" class="code_input" id="result"
+	 <textarea autocomplete="off" class="code_input" id="textare\
+							      aCode"
 		   wrap="logical" spellcheck="false" >
 	   Output
 	 </textarea>
+	 <div id="content"></div>
        </p>
      </div>
-    
-       
 </div>
 </center>
+
+<script type="text/javascript">
+  var socket = io.connect("/");
+  /*Initializing the connection with the server via websockets */
+  socket.on("textareaCode",function(textareaCode){
+  /*
+  When server sends data to the client it will trigger "message" event on the client side , by
+  using socket.on("message") , one cna listen for the ,message event and associate a callback to
+  be executed . The Callback function gets the dat sent from the server
+  */
+  console.log("Message from the server arrived")
+  textareaCode = JSON.parse(textareaCode);
+  console.log(textareaCode); /*converting the data into JS object */
+  $('#content').append('<div >'+textareaCode.data+'</div>'); /*appending the data on the page using Jquery */
+  });
+  $(function(){
+  $('#Run').click(function(){ /*listening to the button click using Jquery listener*/
+  var data = { /*creating a Js ojbect to be sent to the server*/
+  textareaCode:$('#textareaCode').val(), /*getting the text input data      */
+  author:'karthic'
+  }
+  socket.send(JSON.stringify(data));
+  /*Data can be sent to server very easily by using socket.send() method
+  The data has to be changed to a JSON before sending
+  it (JSON.stringify() does this job )*/
+  /* This triggers a message event on the server side
+  and the event handler obtains the data sent */
+
+  $('#textareaCode').val('');
+  //Emptying the text box value using jquery
+
+  });
+  });
+
+          </script>
     <!-- ================================= Footer ========================================= -->
     <div id="footer">
       Current BCC Version: <a href="/bcc-release/bcc-0.0.2.tar.gz">BCC-0.0.2.</a><br>
     </div>
+    
   </body>
-
-
-<head>
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-  <script>
-  //  $(document).ready(function(){
-    $("button").click(function(){
-   // var output = ["yay"];
-    var output = $(document.getElementById("textareaCode").innerHtml);
-   // $.get("http://allen-software.com:8888",function(data){
-//    alert("Data: " + data );
-    var posting = $.post("http://allen-software.com:8888");
-
-    posting.done(function(data) {
-   // alert("Data: " + data);
-  $("#result").empty().append(data).html ;
-    });
-    document.getElementById("result").innerHTML = result;
-    });
-  //   });
-  
-  </script>
-</head>
-
 </html>
 
 

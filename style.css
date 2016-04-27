@@ -780,6 +780,7 @@ a.error {
     height:100%;
     width:100%;
     padding: 10px 15px;
+    float:left;
 }
 
 #textareaCode {
@@ -793,7 +794,7 @@ a.error {
     resize: none;
     text-align: left;
     box-shadow:0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-    background-position: top-right;
+    background-position: top-left;
 }
 .controls{
     text-align: right;
@@ -806,7 +807,24 @@ button{
     font-weight: bold;
     color: rgb(77,77,77);
     border-width: 1px 0 0 1px;
- //   background-color: #4CAF50;
+}
+
+.wrapper{
+    background: #eee;
+    border: 1px solid #999;
+    width: 600px;
+}
+.wrapper textarea{
+    background: linear-gradient(to bottom, #e5e5e5 0%,#f2f2f2 100%);
+    border:none;
+    width:100%;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border-bottom: 1px dotted #999;
+    resize: none;
+}
+.wrapper textarea:focus{
+    outline: none;
 }
 .wrapper{
     background: #eee;
@@ -824,4 +842,53 @@ button{
 }
 .wrapper textarea:focus{
     outline: none;
+}
+
+#elem{
+    background:url('kermit.jpg') center center no-repeat;
+    background-size:100px 150px;
+}
+body {
+    background:url('http://www.clipartfreecollection.com/cliparts/bench-clipart/cliparti1_bench-clipart_01.jpg') #A98436 no-repeat 50% 50%;
+    background-attachment: fixed;
+    -webkit-background-size: cover;
+   -moz-background-size: contain;
+    background-size: cover;
+
+}
+/*#content {
+    background-color: lightgrey;
+    width: 300px;
+    padding: 25px;
+    border: 25px solid navy;
+    margin: 25px;
+}*/
+/*#nav{
+ //   background:yellow;
+    margin:0 auto;
+    width:49%;
+    float:left;
+}*/
+#nav{
+
+}
+#nav ul{
+
+
+}
+#nav ul li{
+
+}
+#main{
+    background-color: #ffffff ;
+    float:left;
+    width:300px;
+    height:500px;
+    margin:25px solid navy;
+    border:1px solid black;
+}
+#content{
+    float:left;
+    width:300px;
+    height:500px;
 }
