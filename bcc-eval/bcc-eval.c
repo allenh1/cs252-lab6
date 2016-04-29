@@ -30,8 +30,8 @@ const char *  _std_color = "\x1b[0m";
 
 const unsigned short _queue_length = 5;
 
-const char * OK  = "\x1b[34;1m[ \x1b[32;1mok \x1b[34;1m]\x1b[0m";
-const char * ERR = "\x1b[34;1m[ \x1b[33;1merr \x1b[34;1m]\x1b[0m";
+const char * OK  = "\x1b[34;1m[ \x1b[32;1mok \x1b[34;1m]\x1b[0m ";
+const char * ERR = "\x1b[34;1m[ \x1b[33;1m!! \x1b[34;1m]\x1b[0m ";
 
 void process_request(int fd);
 void printOk();
@@ -99,7 +99,7 @@ int main(int argc, char ** argv)
 }
 
 void printOk(const char * msg) {
-  size_t len = strlen(msg) + strlen("[ ok ]");
+  size_t len = strlen(msg) + strlen("[ ok ] ");
   fprintf(stderr, _good_color);
   struct winsize w;
   ioctl(1,TIOCGWINSZ, &w);
@@ -110,7 +110,7 @@ void printOk(const char * msg) {
 }
 
 void printErr(const char * msg) {
-  size_t len = strlen(msg) + strlen("[ err ]");
+  size_t len = strlen(msg) + strlen("[ !! ] ");
   fprintf(stderr, _err_color);
   struct winsize w;
   ioctl(1,TIOCGWINSZ, &w);
@@ -166,11 +166,14 @@ void process_request(int fd)
     } else if (pid2 == 0) {
       dup2(fdpipe[0], 0);
       dup2(2, fd);// write errors to host
+      close(2);
+      dup2(1, fd);// write other  to host
+      close(1);
       close(fdpipe[0]); close(1);
       close(fdpipe[1]);
       if (execlp("bcc", "bcc", "out.s", NULL)) {
 	printErr("bcc failed -- is it installed?");
-      }
+      } 
     } else {
       close(fdpipe[0]);
       write(fdpipe[1], _get_request, request_len);
@@ -227,5 +230,5 @@ void process_request(int fd)
     D fprintf(stderr, "bufflen: %zd\n", strlen(buff));
     for (char * b = buff; *b && write(fd, b++, 1); b - buff != strlen(buff));
     printOk("closing client connection.");
-  }
+  } 
 }
